@@ -30,13 +30,32 @@ def matrix_multiply(a, b):
 
 def get_empty_copy(a):
     """creates an empty array matching the size of matrix argument"""
-    return np.zeros((np.shape(a)[0], np.shape(a)[1]))
+    return np.matrix(np.zeros((np.shape(a)[0], np.shape(a)[1])))
 
 
 def populate_diagonal(a):
     for i in range(0, np.shape(a)[0]):
         a[i, i] = 1
     return a
+
+
+def calculate_u_position(u, a, l, i, n):
+    # assigning values to row i of U
+    for j in range(i, n):
+        u[i, j] = a[i, j]
+        # do a dot product
+        for k in range(0, i):
+            u[i, j] = u[i, j] - l[i, k] * u[k, j]
+
+
+def calculate_l_position(u, a, l, i, n):
+    # assigning values to column i of L
+    for j in range(i + 1, n):
+        l[j, i] = a[j, i]
+        # do a dot product
+        for k in range(0, i):
+            l[j, i] = (l[j, i] - l[j, k] * u[k, i])
+        l[j, i] = l[j, i] / u[i, i]
 
 
 def lu_fact(a):
@@ -49,12 +68,15 @@ def lu_fact(a):
     # A must be a square matrix
     if (shapeA[0] != shapeA[1]):
         return None
-
+    n = shapeA[0]
+    print(n)
     # start with matrix A, empty matrix U, and a partially complete matrix L
     u = get_empty_copy(a)
     l = get_empty_copy(a)
     # place 1's in L's diagonal
     populate_diagonal(l)
-    # take the dot product of the first rows of L and A
-    dot = np.dot(l[0], a)
-    print(dot)
+    # the loop where interesting stuff happens
+    for i in range(0, n):
+        # looking at the first half of A
+        calculate_u_position(u, a, l, i, n)
+        calculate_l_position(u, a, l, i, n)

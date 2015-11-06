@@ -10,7 +10,12 @@ answer = mo.matrix_multiply(matrixA, matrixB)
 
 # testing LU factorization
 a = np.matrix([
-                [2, -1, -2],
+               [2, -1, -2],
                [-4,  6,  3],
                [-4,  -2, 8]])
-results = mo.lu_fact(a)
+b = np.matrix([
+               [1, 1, 1, 1],
+               [1, 2, 3, 4],
+               [1, 3, 6, 10],
+               [1, 4, 10, 20]])
+results = mo.lu_fact(b)
