@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import numpy as np
 import modules.matrix_operations as mo
-import csv
+import matplotlib.pyplot as plt
 
 
 # testing matrix multiplication
@@ -66,17 +66,19 @@ for A in mat_list:
 print("number of iterations needed")
 print(iter_list[2])
 print("\n")
-#
-# # do same for A^-1
-inverse_mat_iter_list = []
-for A in inverse_mat_list:
-    inverse_mat_iter_list.append(mo.specific_tolerance_power_method(A, v, E)[0])
-print("number of iterations needed for inverses")
-print(inverse_mat_iter_list[2])
-print("\n")
+# #
+# # # do same for A^-1
+# inverse_mat_iter_list = []
+# for A in inverse_mat_list:
+#     inverse_mat_iter_list.append(mo.specific_tolerance_power_method(A, v, E)[0])
+# print("number of iterations needed for inverses")
+# print(inverse_mat_iter_list[2])
+# print("\n")
 #
 #
 # record the trace and determinant of A & A^-1
+
+
 determinant_list = []
 for A in mat_list:
     determinant_list.append(mo.determinant_for_2x2(A))
@@ -107,13 +109,21 @@ for A in inverse_mat_list:
 print("trace of A^-1")
 print(inverse_mat_trace_list[2])
 
-with open('part3data.csv', 'wt') as part3data:
-    writer = csv.writer(part3data, lineterminator='\n')
-    # figure out way to graph and fix line below!
-    writer.writerow(determinant_list)
-    writer.writerow(trace_list)
-    writer.writerow(iter_list)
-    writer.writerow('\n')
-    writer.writerow(inverse_mat_determinant_list)
-    writer.writerow(inverse_mat_trace_list)
-    writer.writerow(inverse_mat_iter_list)
+
+# graph for matrix A
+plt.scatter(determinant_list, trace_list, c=iter_list)
+plt.gray()
+plt.title('Graph for A\nhigher the number of iteration, brighter the plot')
+plt.xlabel('deteminant')
+plt.ylabel('trace')
+plt.show()
+
+
+
+# graph for A^-1
+plt.scatter(inverse_mat_determinant_list, inverse_mat_trace_list, c=iter_list)
+plt.gray()
+plt.title('Graph for A^-1\nhigher the number of iteration, brighter the plot')
+plt.xlabel('deteminant')
+plt.ylabel('trace')
+plt.show()

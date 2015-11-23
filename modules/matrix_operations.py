@@ -175,7 +175,7 @@ def specific_tolerance_power_method(A, v, E):
         N += 1
         if power_method(A, v, E, N) is not None:
             return N, power_method(A, v, E, N)[1]
-    return 100, 0
+    return 100, None
 
 def determinant_for_2x2(A):
     if np.shape(A)[0] != 2 or np.shape(A)[1] != 2:
