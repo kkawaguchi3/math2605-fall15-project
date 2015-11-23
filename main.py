@@ -61,20 +61,19 @@ print("\n")
 #
 # # do power method to find largest eigenvalue of A within E = 0.00005
 iter_list = []
+print("wait for 5~6 min")
 for A in mat_list:
     iter_list.append(mo.specific_tolerance_power_method(A, v, E)[0])
-print("number of iterations needed")
-print(iter_list[2])
+
 print("\n")
 # #
-# # # do same for A^-1
-# inverse_mat_iter_list = []
-# for A in inverse_mat_list:
-#     inverse_mat_iter_list.append(mo.specific_tolerance_power_method(A, v, E)[0])
-# print("number of iterations needed for inverses")
-# print(inverse_mat_iter_list[2])
-# print("\n")
-#
+# # do same for A^-1
+inverse_mat_iter_list = []
+for A in inverse_mat_list:
+    inverse_mat_iter_list.append(mo.specific_tolerance_power_method(A, v, E)[0])
+
+print("\n")
+
 #
 # record the trace and determinant of A & A^-1
 
