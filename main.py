@@ -61,7 +61,7 @@ print("\n")
 #
 # # do power method to find largest eigenvalue of A within E = 0.00005
 iter_list = []
-print("wait for 5~6 min")
+print("wait for 5~6 min. Thanks")
 for A in mat_list:
     iter_list.append(mo.specific_tolerance_power_method(A, v, E)[0])
 
