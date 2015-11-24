@@ -163,19 +163,47 @@ def est_eigenvalues_2x2(A, v, E, N):
     return (small_eigenvalue, BIG_eigenvalue)
 
 # find number of iterations needed and lamda found from there.
-def specific_tolerance_power_method(A, v, E):
+# def specific_tolerance_power_method(A, v, E):
+#     """
+#     :param A: input matrix
+#     :param v: vector used for power method
+#     :param E: tolerance parameter
+#     :return: (N, lamda) -> N is number of iterations needed, lamda is largest abs value eigenvalue
+#     """
+#     N = 0;
+#     while N <= 100:
+#         N += 1
+#         if power_method(A, v, E, N) is not None:
+#             return N, power_method(A, v, E, N)[1]
+#     return 100, None
+
+def det_trace_iter(A, v, E):
     """
     :param A: input matrix
     :param v: vector used for power method
     :param E: tolerance parameter
-    :return: (N, lamda) -> N is number of iterations needed, lamda is largest abs value eigenvalue
+    :return: (determinant, trace, N) ->determinant, trace, number of iterations
     """
-    N = 0;
-    while N <= 100:
+    N = 0
+    err = 0
+    lamda = 0
+    while np.absolute(err) >= np.absolute(lamda * E) and N <= 100:
         N += 1
-        if power_method(A, v, E, N) is not None:
-            return N, power_method(A, v, E, N)[1]
-    return 100, None
+        temp = matrix_multiply(A, v)
+        newlamda = matrix_multiply(np.transpose(v), temp)[0, 0]
+        newlamda = newlamda / matrix_multiply(np.transpose(v), v)[0, 0]
+
+        # can we use magnitude method???
+        err = np.absolute(newlamda - lamda)
+        v = temp
+        lamda = newlamda
+    # does multiple multiplication for power method!!!
+    if np.absolute(err) < np.absolute(lamda * E):
+        return (determinant_for_2x2(A), trace(A), N)
+    else:
+        #print("Uhh, failed")
+        return None
+
 
 def determinant_for_2x2(A):
     if np.shape(A)[0] != 2 or np.shape(A)[1] != 2:
