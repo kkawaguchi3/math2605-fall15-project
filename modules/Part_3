@@ -1,0 +1,2 @@
+import numpy as np
+thousand_random_2x2_mats()
