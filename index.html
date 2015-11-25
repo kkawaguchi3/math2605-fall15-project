@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+body { font: 12px Arial; margin: 50px;}
+
+path { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+#op {
+    stroke: red;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+</style>
+<body>
+    <h1> LU </h1>
+    <div id="lu"></div>
+    <h1> QR </h1>
+    <div id="hh"></div>
+    <h1> Givens </h1>
+    <div id="giv"></div>
+
+<!-- load the d3.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.9/d3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.5.0/d3-legend.js"></script>
+<script src="./chart-script.js"></script>
+
+</body>
