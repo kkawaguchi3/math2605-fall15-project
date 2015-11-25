@@ -306,6 +306,9 @@ print("Ratio of [(Jacobi iteration number average) / (GS iteration number averag
 print(" The average solution x_approx:")
 avgOfXn = sumOfXn / 100
 print(avgOfXn)
+print("Average approximate error norm")
+avgAppErrNorm = norm(avgOfXn, x_realSol)
+print(avgAppErrNorm)
 
 # output to csv
 with open('./data/iter_jaboci_data.csv', 'w', newline='') as myfile:
