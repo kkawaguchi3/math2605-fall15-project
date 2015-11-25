@@ -1,5 +1,5 @@
 import numpy as np
-
+import math
 # implementation of matrix multiplication method
 
 
@@ -80,3 +80,99 @@ def lu_fact(a):
         # looking at the first half of A
         calculate_u_position(u, a, l, i, n)
         calculate_l_position(u, a, l, i, n)
+    # now L and U have been formed
+    error = calc_error(l, u, a)
+    return l, u, error
+
+
+def calc_error(M_1, M_2, A):
+    product = M_1 * M_2 - A
+    norm = np.linalg.norm(product)
+    return norm
+
+
+def solve_lu_b(L, U, P, b):
+    x = U/(L/(np.transpose(P) * b))
+    return x
+
+
+def qr_fact_househ(A):
+
+    a_row = np.shape(A)[0]
+    a_col = np.shape(A)[1]
+    Q = np.eye(a_row)
+    R = A.copy()
+    for i in range(a_col - (a_row == a_col)):
+        H = np.eye(a_row)
+        H[i:, i:] = householder(R[i:, i])
+        Q = np.dot(Q, H)
+        R = np.dot(H, R)
+    error = calc_error(Q, R, A)
+    return Q, R, error
+
+
+def householder(a):
+    v = a / (a[0] + np.copysign(np.linalg.norm(a), a[0]))
+    v[0] = 1
+    H = np.eye(a.shape[0])
+    H -= (2 / np.dot(v, v)) * np.dot(v[:, None], v[None, :])
+    return H
+
+
+def least_square(a, b, q, r):
+    _, n = r.shape
+    return np.linalg.solve(r[:n, :], np.dot(q.T, b)[:n])
+
+
+def solve_qr_b(A, b):
+    Q, R, error = qr_fact_househ(A)
+    x = least_square(A, b, Q, R)
+    return x, Q, R, error
+
+
+def create_pascal(n):
+    # P is nxn matrix
+    P = np.ones((n, n))
+    for i in range(0, n):
+        for j in range(0, n):
+            pascal_entry = math.factorial((i) + (j))
+            pascal_entry /= (math.factorial(i) * math.factorial(j))
+            P[i, j] = pascal_entry
+    return P
+
+
+def create_b(n):
+    b = np.zeros((n))
+    for i in range(0, n):
+        b[i] = (1 / (i+1))
+    return b
+
+
+def part_d_setup():
+    # for each n = 2: 12
+    for n in range(2, 12):
+        # solve the system Px = b
+        P = create_pascal(n)
+        # b = (1, 1/2, ... , 1/n)^t
+        b = create_b(n)
+        # use both lu_solve and qr_solve
+        # TODO: solve using lu
+        # TODO: solve using givens
+        # QR householder
+        x, Q, R, error = solve_qr_b(P, b)
+    # output solution x_sol
+        print("case n = " + str(n))
+        print("x_sol:\n" + str(x))
+        print("error:\n" + str(error))
+    # output the errors: lu_minus_p, qr_minus_p, px_sol_minus b
+
+
+# Summarize your findings by plotting the errors obtained as a function of n, for each
+# of the methods. The plot can be done using your own code, Excel, or any graphing
+# program. The plots should be included in the written component of this part of the
+# project.
+
+
+## Section for testing
+
+part_d_setup()
