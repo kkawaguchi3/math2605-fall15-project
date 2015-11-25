@@ -232,13 +232,42 @@ testX = np.matrix(([0],
 testb = np.matrix(([-1],
                    [2],
                    [3]))
-print('jacobi')
-print(jacobi_iter(testA, testb, testX, 100, 0.00005))
-print('jacobi')
+print("Testing iteration methods with the following parameters:")
+print("A")
+print(testA)
+print("x")
+print(x_realSol)
+print("b")
+print(testb)
+print('About to Test using Jacobi iteration with 100 iterations and a tolerance = 0.00005')
+input('Press any key to continue...')
+num_iterations, j_error = jacobi_iter(testA, testb, testX, 100, 0.00005)
+print("Finished!")
+print("Number of iterations:")
+print(num_iterations)
+print("The normalized error value:")
+print(j_error)
+print('Now, I`m aout to test using GS iteration with 100 iterations and a tolerance = 0.00005')
+input('Press any key to continue...')
+num_iterations, j_error = gs_iter(testA, testb, testX, 100, 0.00005)
+print("Finished!")
+print("Number of iterations:")
+print(num_iterations)
+print("The normalized error value:")
+print(j_error)
+
+
+input("Now beginning the 100 random 3x1 matrices trial. Hit a key to continue...")
 k = random_three_by_matrix()
 max_iteration = 100
+print("For GS:")
+num_iterations, j_results = gs_iter(s, d, k, max_iteration, .000008)
+print("Number of iterations:")
+print(num_iterations)
+print("The normalized error value:")
+print(j_error)
 
-print(gs_iter(s, d, k, max_iteration, .000008))
+
 #part d then part c
 listRandInitGuess = []
 for num in range(100):
@@ -273,7 +302,8 @@ for item in listRandInitGuess:
 
     sumOfXn += item
 avg_Njc_div_Ngs = (Njc_div_Ngs / num_of_Njc_div_Ngs)
-print(avg_Njc_div_Ngs)
+print("Ratio of [(Jacobi iteration number average) / (GS iteration number average)] = \n" + str(avg_Njc_div_Ngs))
+print(" The average solution x_approx:")
 avgOfXn = sumOfXn / 100
 print(avgOfXn)
 
@@ -284,3 +314,5 @@ with open('./data/iter_jaboci_data.csv', 'w', newline='') as myfile:
 with open('./data/iter_gs_data.csv', 'w', newline='') as myfile:
     writer = csv.writer(myfile)
     writer.writerows(newGSList)
+print("date saved to ./data directory")
+print("Part 2 Complete!")
