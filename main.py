@@ -21,7 +21,10 @@ class Main(cmd.Cmd):
 
     def do_2(self, line):
         'Activate part 2 of the project'
-        print("Part 2 Coming Soon!")
+        print("\n==================")
+        print("Welcome to Part 1.")
+        print("==================\n")
+        import iterativeMethods
 
     def do_3(self, line):
         'Activate part 3 of the project'
